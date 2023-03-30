@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class NetworkWrapperHelper
 {
+  token: string | string[] = '';
 
   constructor(
     private _httpClient: HttpClient
@@ -16,13 +17,17 @@ export class NetworkWrapperHelper
   headers = new HttpHeaders()
     .set('content-type', 'application/json');
 
+  headersWithAuth = new HttpHeaders()
+    .set('content-type', 'application/json')
+    .set('Authorization', this.token);
+
   post<T>(data: postMethod)
   {
 
     return this._httpClient.post<T>(
       data.url,
       data.data,
-      { headers: this.headers }
+      { headers: data.withoutAuth ? this.headers : this.headersWithAuth }
     );
   }
 
@@ -33,7 +38,7 @@ export class NetworkWrapperHelper
       data.url,
       {
         params: data.params as any,
-        headers: this.headers
+        headers: data.withoutAuth ? this.headers : this.headersWithAuth
       }
     );
 
@@ -46,7 +51,7 @@ export class NetworkWrapperHelper
       data.url,
       {
         params: data.params as any,
-        headers: this.headers
+        headers: data.withoutAuth ? this.headers : this.headersWithAuth
       }
     );
 
@@ -58,7 +63,7 @@ export class NetworkWrapperHelper
     return this._httpClient.put<T>(
       data.url,
       data.data,
-      { headers: this.headers }
+      { headers: data.withoutAuth ? this.headers : this.headersWithAuth }
     );
   }
 }
@@ -67,10 +72,12 @@ export interface postMethod
 {
   url: string,
   data: any;
+  withoutAuth?: boolean;
 }
 
 export interface getMethod
 {
   url: string,
   params?: any;
+  withoutAuth?: boolean;
 }
