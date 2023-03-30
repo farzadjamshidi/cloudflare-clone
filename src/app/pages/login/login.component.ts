@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { PostLoginRequest } from '../../core/models/login.model';
+import { IAuthTokensRepo } from '../../core/repository/interfaces/auth-tokens.interface';
 import { IUsersRepo } from '../../core/repository/interfaces/users.interface';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,6 +20,7 @@ export class LoginComponent
 
   constructor(
     @Inject('IUsersRepo') private usersRepo: IUsersRepo,
+    @Inject('IAuthTokensRepo') private authTokensRepo: IAuthTokensRepo,
     private router: Router
   )
   { }
@@ -28,11 +30,9 @@ export class LoginComponent
     const request: PostLoginRequest = this.form.value;
 
     this.usersRepo.login(request).subscribe({
-      next: (response) =>
+      next: async (response) =>
       {
-
-        //save to local storage
-
+        await firstValueFrom(this.authTokensRepo.set(response));
         this.router.navigate(['home']);
       }
     });
