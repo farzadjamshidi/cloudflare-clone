@@ -27,12 +27,12 @@ export class UsersV1Tradermade implements IUsersRepo
   login(request: PostLoginRequest)
   {
     const url = this.apiUrl + 'login';
-    return this.networkWrapperHelper.post<PostLoginResponse>({ url: url, data: request });
+    return this.networkWrapperHelper.post<PostLoginResponse>({ url: url, data: request, withoutAuth: true });
   }
   refreshToken(request: PostRefreshTokenRequest)
   {
     const url = this.apiUrl + 'login';
-    return this.networkWrapperHelper.post<PostRefreshTokenResponse>({ url: url, data: request });
+    return this.networkWrapperHelper.post<PostRefreshTokenResponse>({ url: url, data: request, withoutAuth: true });
   }
   forgetPassword(request: any)
   {
