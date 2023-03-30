@@ -6,7 +6,7 @@ import { IUsersRepo } from "../../interfaces/users.interface";
 
 
 @Injectable()
-export class UsersV1Tradermade implements IUsersRepo
+export class UsersV1Hockerized implements IUsersRepo
 {
 
   apiUrl = "https://api.hockerized.com/v1/users/";
