@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 })
 export class NetworkWrapperHelper
 {
-  token: string | string[] = '';
 
   constructor(
     private _httpClient: HttpClient
@@ -15,11 +14,11 @@ export class NetworkWrapperHelper
   }
 
   headers = new HttpHeaders()
-    .set('content-type', 'application/json');
+    .set('Content-Type', 'application/json');
 
   headersWithAuth = new HttpHeaders()
-    .set('content-type', 'application/json')
-    .set('Authorization', this.token);
+    .set('Content-Type', 'application/json')
+    .set('Authorization', '');
 
   post<T>(data: postMethod)
   {
@@ -65,6 +64,13 @@ export class NetworkWrapperHelper
       data.data,
       { headers: data.withoutAuth ? this.headers : this.headersWithAuth }
     );
+  }
+
+  setAuthorizationToken(token: string)
+  {
+    this.headersWithAuth = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
   }
 }
 
