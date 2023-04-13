@@ -39,3 +39,5 @@ ng g c pages/sign-up
 ng g c pages/home
 
 ng g c pages/logout
+
+ng generate interceptor core/interceptors/HttpRequest
