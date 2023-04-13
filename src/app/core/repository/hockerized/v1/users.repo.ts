@@ -31,7 +31,7 @@ export class UsersV1Hockerized implements IUsersRepo
   }
   refreshToken(request: PostRefreshTokenRequest)
   {
-    const url = this.apiUrl + 'login';
+    const url = this.apiUrl + 'refreshToken';
     return this.networkWrapperHelper.post<PostRefreshTokenResponse>({ url: url, data: request, withoutAuth: true });
   }
   forgetPassword(request: any)
